@@ -1,5 +1,11 @@
 # OtdrReader
 
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/claasd/OtdrReader/blob/main/LICENSE)
+[![Nuget](https://img.shields.io/nuget/v/CdIts.OtdrReader)](https://www.nuget.org/packages/CdIts.OtdrReader/)
+[![Nuget](https://img.shields.io/nuget/vpre/CdIts.OtdrReader)](https://www.nuget.org/packages/CdIts.OtdrReader/)
+[![CI](https://github.com/claasd/OtdrReader/actions/workflows/build.yml/badge.svg)](https://github.com/claasd/caffoa.net/actions/workflows/build.yml)
+
+
 C#/NET implementation for reading SOR (Standard OTDR Record) V2 files. Currently there is not support for v1 files.
 
 I followed the description of Sidney Li to implement this, he also has implementations in Perl, Python, Ruby and Clojure.
