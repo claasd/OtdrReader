@@ -11,7 +11,6 @@
         <Authors>claasd</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>C#/NET implementation for reading SOR (Standard OTDR Record) V2 files.</Description>
-        <PackageReadmeFile>../README.md</PackageReadmeFile>
     </PropertyGroup>
 
 </Project>
