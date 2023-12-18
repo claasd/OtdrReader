@@ -25,13 +25,13 @@ internal static class ByteExtensions
 
     public static Span<byte> TakeString(this Span<byte> data, out string str, int length)
     {
-        str = Encoding.ASCII.GetString(data[..length]);
+        str = Encoding.UTF8.GetString(data[..length]);
         return data[length..];
     }
     public static Span<byte> TakeString(this Span<byte> data, out string str)
     {
         var index = data.IndexOf((byte)0);
-        str = Encoding.ASCII.GetString(data[..index]);
+        str = Encoding.UTF8.GetString(data[..index]);
         return data[(index + 1)..];
     }
 
