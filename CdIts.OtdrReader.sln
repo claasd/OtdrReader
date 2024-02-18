@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdIts.OtdrReader", "CdIts.OtdrReader\CdIts.OtdrReader.csproj", "{05990290-B8EA-4AED-92F7-2401D79EAD75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalTests", "LocalTests\LocalTests.csproj", "{6F2B6362-A004-4141-80A9-DF76A49E3B3A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdIts.OtdrWriter", "CdIts.OtdrWriter\CdIts.OtdrWriter.csproj", "{1463457A-4ADB-4CE1-98CC-FAFB67EDA239}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtdrTests", "OtdrTests\OtdrTests.csproj", "{52B17329-486B-41D4-944E-8F4F2B0DB72D}"
@@ -26,10 +24,6 @@ Global
 		{05990290-B8EA-4AED-92F7-2401D79EAD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05990290-B8EA-4AED-92F7-2401D79EAD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05990290-B8EA-4AED-92F7-2401D79EAD75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F2B6362-A004-4141-80A9-DF76A49E3B3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F2B6362-A004-4141-80A9-DF76A49E3B3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F2B6362-A004-4141-80A9-DF76A49E3B3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F2B6362-A004-4141-80A9-DF76A49E3B3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1463457A-4ADB-4CE1-98CC-FAFB67EDA239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1463457A-4ADB-4CE1-98CC-FAFB67EDA239}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1463457A-4ADB-4CE1-98CC-FAFB67EDA239}.Release|Any CPU.ActiveCfg = Release|Any CPU
