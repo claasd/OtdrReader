@@ -3,7 +3,7 @@ using System.Text;
 
 namespace CdIts.OtdrReader;
 
-internal static class ByteExtensions
+public static class ByteExtensions
 {
     public static ushort ReadUShort(this Span<byte> data, int offset = 0)
     {
@@ -64,5 +64,18 @@ internal static class ByteExtensions
         var unixTimestamp = data.ReadUInt();
         timestamp = DateTimeOffset.FromUnixTimeSeconds(unixTimestamp);
         return data[4..];
+    }
+    
+    public static void WriteStringAsByte(this BinaryWriter writer, string value)
+    {
+        var bytes = Encoding.UTF8.GetBytes(value + '\0');
+        writer.Write(bytes);
+    }
+    public static void WriteStringAsByte(this BinaryWriter writer, string value, int len)
+    {
+        while(value.Length < len)
+            value += ' ';
+        var bytes = Encoding.UTF8.GetBytes(value);
+        writer.Write(bytes);
     }
 }

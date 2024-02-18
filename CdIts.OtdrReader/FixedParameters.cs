@@ -1,51 +1,54 @@
 ﻿namespace CdIts.OtdrReader;
 
-public class FixedParameters
+public class FixedParameters : IWriteableBlock
 {
-    public IReadOnlyList<PulseWidthEntry> PulseWidthEntries { get; }
-    public readonly DateTimeOffset Timestamp;
-    public readonly string Unit;
-    public readonly ushort WaveLength;
-    public readonly int AcquisitionOffset;
-    public readonly int AcquisitionOffsetDistance;
-    public readonly uint IndexOfRefraction;
-    public readonly ushort BackscatteringCoefficient;
-    public readonly uint NumberOfAverages;
-    public readonly ushort AveragingTime;
-    public readonly uint Range;
-    public readonly int AcquisitionRangeDistance;
-    public readonly int FrontPAnelOffset;
-    public readonly ushort NoiseFloorLevel;
-    public readonly short NoiseFloorScalingFactor;
-    public readonly ushort PowerOffsetFirstPoint;
-    public readonly ushort LossThreshold;
-    public readonly ushort ReflectionThreshold;
-    public readonly ushort EndOfTransmitionThreshold;
-    public readonly string TraceType;
-    public readonly int X1;
-    public readonly int Y1;
-    public readonly int X2;
-    public readonly int Y2;
+    public const string BlockName = "FxdParams";
+    public List<PulseWidthEntry> PulseWidthEntries { get; } = new();
+    public DateTimeOffset Timestamp;
+    public string Units = "mt";
+    public ushort WaveLength;
+    public int AcquisitionOffset;
+    public int AcquisitionOffsetDistance;
+    public uint IndexOfRefraction;
+    public ushort BackscatteringCoefficient;
+    public uint NumberOfAverages;
+    public ushort AveragingTime;
+    public uint Range;
+    public int AcquisitionRangeDistance;
+    public int FrontPAnelOffset;
+    public ushort NoiseFloorLevel;
+    public short NoiseFloorScalingFactor;
+    public ushort PowerOffsetFirstPoint;
+    public ushort LossThreshold;
+    public ushort ReflectionThreshold;
+    public ushort EndOfTransmitionThreshold;
+    public string TraceType = "ST";
+    public int X1;
+    public int Y1;
+    public int X2;
+    public int Y2;
 
-    public FixedParameters(Span<byte> frame)
+    public FixedParameters()
     {
+    }
+
+    internal FixedParameters(double version, Span<byte> frame)
+    {
+        Version = version;
         frame = frame.TakeString(out var _)
             .TakeUnixTimestamp(out Timestamp)
-            .TakeString(out Unit, 2)
+            .TakeString(out Units, 2)
             .TakeUShort(out WaveLength)
             .TakeInt(out AcquisitionOffset)
             .TakeInt(out AcquisitionOffsetDistance)
             .TakeUShort(out var numPulses);
-        var pulseWidthEntries = new List<PulseWidthEntry>();
         for (var i = 0; i < numPulses; i++)
         {
             frame = frame.TakeUShort(out var pulseWidth)
                 .TakeUInt(out var sampleSpacing)
                 .TakeUInt(out var numDataPoints);
-            pulseWidthEntries.Add(new PulseWidthEntry(pulseWidth, sampleSpacing, numDataPoints));
+            PulseWidthEntries.Add(new PulseWidthEntry(pulseWidth, sampleSpacing, numDataPoints));
         }
-
-        PulseWidthEntries = pulseWidthEntries.ToArray();
 
         frame.TakeUInt(out IndexOfRefraction)
             .TakeUShort(out BackscatteringCoefficient)
@@ -65,5 +68,44 @@ public class FixedParameters
             .TakeInt(out Y1)
             .TakeInt(out X2)
             .TakeInt(out Y2);
+    }
+
+    public double Version { get; } = 1.0;
+    public string Name => BlockName;
+
+    public void Write(BinaryWriter writer)
+    {
+        writer.WriteStringAsByte(Name);
+        writer.Write((uint)Timestamp.ToUnixTimeSeconds());
+        writer.WriteStringAsByte(Units, 2);
+        writer.Write(WaveLength);
+        writer.Write(AcquisitionOffset);
+        writer.Write(AcquisitionOffsetDistance);
+        writer.Write((ushort)PulseWidthEntries.Count);
+        foreach (var pulseWidthEntry in PulseWidthEntries)
+        {
+            writer.Write(pulseWidthEntry.PulseWidth);
+            writer.Write(pulseWidthEntry.SampleSpacing);
+            writer.Write(pulseWidthEntry.NumDataPoints);
+        }
+
+        writer.Write(IndexOfRefraction);
+        writer.Write(BackscatteringCoefficient);
+        writer.Write(NumberOfAverages);
+        writer.Write(AveragingTime);
+        writer.Write(Range);
+        writer.Write(AcquisitionRangeDistance);
+        writer.Write(FrontPAnelOffset);
+        writer.Write(NoiseFloorLevel);
+        writer.Write(NoiseFloorScalingFactor);
+        writer.Write(PowerOffsetFirstPoint);
+        writer.Write(LossThreshold);
+        writer.Write(ReflectionThreshold);
+        writer.Write(EndOfTransmitionThreshold);
+        writer.WriteStringAsByte(TraceType, 2);
+        writer.Write(X1);
+        writer.Write(Y1);
+        writer.Write(X2);
+        writer.Write(Y2);
     }
 }

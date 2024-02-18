@@ -4,3 +4,5 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 **/.idea
+LocalTests/
+/CdIts.OtdrReader.sln.DotSettings.user

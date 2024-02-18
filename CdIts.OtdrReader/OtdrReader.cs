@@ -50,32 +50,32 @@ public class OtdrReader
 
     public GeneralParameters? GetGeneralParameters()
     {
-        var blockRef = _blocks.Find(b => b.Name == "GenParams");
-        return blockRef is null ? null : new GeneralParameters(_data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
+        var blockRef = _blocks.Find(b => b.Name == GeneralParameters.BlockName);
+        return blockRef is null ? null : new GeneralParameters(blockRef.Version, _data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
     }
 
     public SupplierParameters? GetSupplierParameters()
     {
-        var blockRef = _blocks.Find(b => b.Name == "SupParams");
-        return blockRef is null ? null : new SupplierParameters(_data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
+        var blockRef = _blocks.Find(b => b.Name == SupplierParameters.BlockName);
+        return blockRef is null ? null : new SupplierParameters(blockRef.Version, _data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
     }
 
     public FixedParameters? GetFixedParameters()
     {
-        var blockRef = _blocks.Find(b => b.Name == "FxdParams");
-        return blockRef is null ? null : new FixedParameters(_data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
+        var blockRef = _blocks.Find(b => b.Name == FixedParameters.BlockName);
+        return blockRef is null ? null : new FixedParameters(blockRef.Version, _data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
     }
 
     public KeyEvents? GetKeyEvents()
     {
-        var blockRef = _blocks.Find(b => b.Name == "KeyEvents");
-        return blockRef is null ? null : new KeyEvents(_data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
+        var blockRef = _blocks.Find(b => b.Name == KeyEvents.BlockName);
+        return blockRef is null ? null : new KeyEvents(blockRef.Version, _data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length));
     }
 
     public IReadOnlyList<TraceDataPoints>? GetDataPoints()
     {
-        var blockRef = _blocks.Find(b => b.Name == "DataPts");
-        return blockRef is null ? null : new DataPointsBlock(_data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length)).Traces;
+        var blockRef = _blocks.Find(b => b.Name == DataPointsBlock.BlockName);
+        return blockRef is null ? null : new DataPointsBlock(blockRef.Version, _data.AsSpan((int)blockRef.StartIndex, (int)blockRef.Length)).Traces;
     }
 
     private OtdrReader(byte[] data)

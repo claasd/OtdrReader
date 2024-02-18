@@ -2,20 +2,24 @@
 
 public class KeyEvent
 {
-    public readonly ushort EventNumber;
-    public readonly uint TimeOfTravel;
-    public readonly short Slope;
-    public readonly short SpliceLoss;
-    public readonly int ReflectionLoss;
-    public readonly string EventType;
-    public readonly uint EndOfPreviousEvent;
-    public readonly uint BeginningOfCurrentEvent;
-    public readonly uint EndOfCurrentEvent;
-    public readonly uint BeginningOfNextEvent;
-    public readonly uint PeakPointInCurrentEvent;
-    public readonly string Comment;
+    public ushort EventNumber;
+    public uint TimeOfTravel;
+    public short Slope;
+    public short SpliceLoss;
+    public int ReflectionLoss;
+    public string EventType = "";
+    public uint EndOfPreviousEvent;
+    public uint BeginningOfCurrentEvent;
+    public uint EndOfCurrentEvent;
+    public uint BeginningOfNextEvent;
+    public uint PeakPointInCurrentEvent;
+    public string Comment = "";
 
-    public KeyEvent(Span<byte> data)
+    public KeyEvent()
+    {
+        
+    }
+    internal KeyEvent(Span<byte> data)
     {
         data.TakeUShort(out EventNumber)
             .TakeUInt(out TimeOfTravel)
@@ -32,4 +36,20 @@ public class KeyEvent
     }
 
     public int FrameLength => 43 + Comment.Length;
+
+    internal void Write(BinaryWriter writer)
+    {
+        writer.Write(EventNumber);
+        writer.Write(TimeOfTravel);
+        writer.Write(Slope);
+        writer.Write(SpliceLoss);
+        writer.Write(ReflectionLoss);
+        writer.WriteStringAsByte(EventType, 8);
+        writer.Write(EndOfPreviousEvent);
+        writer.Write(BeginningOfCurrentEvent);
+        writer.Write(EndOfCurrentEvent);
+        writer.Write(BeginningOfNextEvent);
+        writer.Write(PeakPointInCurrentEvent);
+        writer.WriteStringAsByte(Comment);
+    }
 }

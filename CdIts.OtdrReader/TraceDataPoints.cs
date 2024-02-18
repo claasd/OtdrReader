@@ -2,21 +2,22 @@
 
 public class TraceDataPoints
 {
-    public readonly ushort ScalingFactor;
-    public IReadOnlyList<ushort> DataPoints { get; }
+    public ushort ScalingFactor = 1;
+    public List<ushort> DataPoints { get; } = new();
     public int FrameLength => DataPoints.Count * 2 + 6;
 
-    public TraceDataPoints(Span<byte> frame)
+    public TraceDataPoints()
+    {
+    }
+    
+    internal TraceDataPoints(Span<byte> frame)
     {
         frame = frame.TakeUInt(out var numDataPoints)
             .TakeUShort(out ScalingFactor);
-        var dataPoints = new ushort[numDataPoints];
         for (var i = 0; i < numDataPoints; i++)
         {
             frame = frame.TakeUShort(out var dataPoint);
-            dataPoints[i] = dataPoint;
+            DataPoints.Add(dataPoint);
         }
-
-        DataPoints = dataPoints;
     }
 }
